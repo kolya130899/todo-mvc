@@ -1,0 +1,60 @@
+import React from "react";
+import { connect } from "react-redux";
+import {
+  changeItemIsDone,
+  changeItemText,
+  filteredTodosSelector
+} from "../../ducks/todos";
+
+class List extends React.Component {
+  render() {
+    /**
+     * FIX IT BELOW
+     */
+    const filteredTodos = filteredTodosSelector();
+    /**
+     * FIX ABOVE
+     */
+    const { changeItemIsDone, changeItemText } = this.props;
+
+    debugger;
+
+    return (
+      <div>
+        {filteredTodos.map(item => (
+          <div
+            key={item.id}
+            style={{
+              textDecoration: item.isDone ? "line-through" : "none",
+              color: item.isDone ? "gray" : "black"
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={item.isDone}
+              onChange={e => changeItemIsDone(item.id, e.target.checked)}
+            />
+
+            <input
+              type="text"
+              value={item.text}
+              onChange={e => changeItemText(item.id, e.target.value)}
+            />
+            {item.text}
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
+
+export default connect(
+  state => ({
+    list: state.todos.list
+  }),
+  { changeItemIsDone, changeItemText, filteredTodosSelector }
+)(List);
+
+// changeItemIsDone = function (...args) {
+//   return store.dispatch(changeItemIsDone(...args))
+// }
