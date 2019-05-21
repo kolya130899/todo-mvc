@@ -17,7 +17,9 @@ class ProductsList extends React.Component {
     return (
       <div>
         <h1>ProductsList</h1>
-
+        <h3>
+          <Link to="/products/new">New Product</Link>
+        </h3>
         {this.props.isLoading && <div>Loading...</div>}
 
         {this.props.products.map(product => (
