@@ -1,4 +1,14 @@
 {
+  "products": [
+    {
+      "id": 1,
+      "name": "some text"
+    },
+    {
+      "id": 2,
+      "name": "some text2"
+    }
+  ],
   "todos": [
     {
       "id": "Sat May 11 2019/0.9806490074681602",
