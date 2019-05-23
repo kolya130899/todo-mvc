@@ -18,6 +18,10 @@ const SAVE_NEW_REQUEST = `${appName}/${moduleName}/FETCH_ONE/REQUEST`;
 const SAVE_NEW_SUCCESS = `${appName}/${moduleName}/FETCH_ONE/SUCCESS`;
 const SAVE_NEW_FAILURE = `${appName}/${moduleName}/FETCH_ONE/FAILURE`;
 
+const SAVE_EDIT_ITEM_REQUEST = `${appName}/${moduleName}/SAVE_EDIT_ITEM/REQUEST`;
+const SAVE_EDIT_ITEM_SUCCESS = `${appName}/${moduleName}/SAVE_EDIT_ITEM/SUCCESS`;
+const SAVE_EDIT_ITEM_FAILURE = `${appName}/${moduleName}/SAVE_EDIT_ITEM/FAILURE`;
+
 /**
  * Action creator
  */
@@ -86,6 +90,29 @@ export const saveNewProduct = newProduct => async (
     });
   }
 };
+export const saveEdited = (id, editedProduct) => async (
+  dispatch,
+  _getState,
+  { api }
+) => {
+  dispatch({
+    type: SAVE_EDIT_ITEM_REQUEST
+  });
+
+  try {
+    const product = await api.products.saveEdited(id, editedProduct);
+
+    dispatch({
+      type: SAVE_EDIT_ITEM_SUCCESS,
+      payload: product
+    });
+  } catch (error) {
+    dispatch({
+      type: SAVE_EDIT_ITEM_FAILURE,
+      payload: error
+    });
+  }
+};
 
 const defaultState = {
   isLoading: false,
@@ -131,6 +158,35 @@ export default function reducer(state = defaultState, action) {
         isLoading: false,
         one: action.payload
       };
+    // case SAVE_EDIT_ITEM_REQUEST:
+    //   return {
+    //     ...state,
+    //     isEditing: true
+    //     // list: state.list.map(item => {
+    //     //   if (item.id === action.payload.id) {
+    //     //     return {
+    //     //       ...item,
+    //     //       name: action.payload.name,
+    //     //       description: action.payload.description
+    //     //     };
+    //     //   }
+    //     //   return item;
+    //     // })
+    //   };
+    // case SAVE_EDIT_ITEM_SUCCESS:
+    //   return {
+    //     ...state,
+    //     list: state.list.map(item => {
+    //       if (item.id === action.payload.id) {
+    //         return {
+    //           ...item,
+    //           name: action.payload.name,
+    //           description: action.payload.description
+    //         };
+    //       }
+    //       return item;
+    //     })
+    //   };
     default:
       return state;
   }

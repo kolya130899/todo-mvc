@@ -2,16 +2,23 @@
   "products": [
     {
       "id": 1,
-      "name": "some text"
+      "name": "some text1",
+      "description": "sdvdvasc"
     },
     {
       "id": 2,
-      "name": "some text2"
+      "name": "some text2",
+      "description": "dhfh"
     },
     {
-      "name": "Mrti",
-      "description": "",
-      "id": 3
+      "id": 3,
+      "name": "Mrti1",
+      "description": "lkjn"
+    },
+    {
+      "id": 4,
+      "name": "Mrti2",
+      "description": "this.props.values.description"
     }
   ],
   "todos": [

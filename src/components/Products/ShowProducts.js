@@ -9,9 +9,11 @@ import {
 class ShowProducts extends React.Component {
   componentDidMount() {
     this.props.fetchProduct(this.props.match.params.id);
+    console.log("from did mount", this.props.match.params.id);
   }
   render() {
     const { product, isLoading } = this.props;
+    console.log("from render", this.props);
 
     if (isLoading) return <div>Loading...</div>;
 
@@ -20,6 +22,7 @@ class ShowProducts extends React.Component {
       <div>
         Show product
         <h1>{product.name}</h1>
+        <h1>{product.description}</h1>
       </div>
     );
   }

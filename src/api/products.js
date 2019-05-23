@@ -14,3 +14,9 @@ export function getOne(id) {
 export function saveNew(product) {
   return axios.post(`${BASE_URL}/products`, product).then(extractData);
 }
+export function saveEdited(product) {
+  console.log(product);
+  return axios
+    .put(`${BASE_URL}/products/${product.id}`, product)
+    .then(extractData);
+}

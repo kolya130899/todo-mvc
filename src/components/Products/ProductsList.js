@@ -24,7 +24,9 @@ class ProductsList extends React.Component {
 
         {this.props.products.map(product => (
           <div key={product.id}>
-            <Link to={`/products/${product.id}`}>{product.name}</Link>
+            <span>{product.id}</span>
+            <Link to={`/products/${product.id}`}>{product.name}</Link>{" "}
+            <Link to={`/products/${product.id}/edit`}>Edit</Link>
           </div>
         ))}
       </div>
