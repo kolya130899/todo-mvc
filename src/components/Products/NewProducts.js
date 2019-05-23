@@ -1,59 +1,65 @@
 import React from "react";
-import { Formik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { saveNewProduct } from "../../ducks/products";
 
-export default class ProductsList extends React.Component {
+class NewProduct extends React.Component {
   render() {
     return (
       <div>
-        <h1>New Product </h1>
+        <h1>New product</h1>
+
         <Formik
-          initialValues={{ name: "" }}
+          initialValues={{ name: "", description: "" }}
           validate={values => {
             let errors = {};
             if (!values.name) {
               errors.name = "Required";
             }
-            //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            // ) {
-            //   errors.email = "Invalid email address";
-            // }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            console.log(values);
-            setSubmitting(false);
-            // setTimeout(() => {
-            //   alert(JSON.stringify(values, null, 2));
-            //   setSubmitting(false);
-            // }, 400);
+            this.props.saveNewProduct(values).then(product => {
+              setSubmitting(false);
+
+              if (product) {
+                const url = `/products/${product.id}`;
+                this.props.history.push(url);
+              }
+            });
           }}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting
-            /* and other goodies */
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.name}
-              />
-              {errors.name && touched.name && errors.name}
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </form>
+          {({ isSubmitting }) => (
+            <Form>
+              <div>
+                <label>name</label>
+                <Field type="text" name="name" />
+                <ErrorMessage name="name" component="div" />
+              </div>
+
+              <div>
+                <label>description</label>
+                <Field type="text" name="description" />
+                <ErrorMessage name="description" component="div" />
+              </div>
+
+              <div>
+                <button type="submit" disabled={isSubmitting}>
+                  Submit
+                </button>
+              </div>
+            </Form>
           )}
         </Formik>
       </div>
     );
   }
 }
+
+export default connect(
+  null,
+  {
+    saveNewProduct
+  }
+)(withRouter(NewProduct));

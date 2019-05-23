@@ -14,6 +14,10 @@ const FETCH_ONE_REQUEST = `${appName}/${moduleName}/FETCH_ONE/REQUEST`;
 const FETCH_ONE_SUCCESS = `${appName}/${moduleName}/FETCH_ONE/SUCCESS`;
 const FETCH_ONE_FAILURE = `${appName}/${moduleName}/FETCH_ONE/FAILURE`;
 
+const SAVE_NEW_REQUEST = `${appName}/${moduleName}/FETCH_ONE/REQUEST`;
+const SAVE_NEW_SUCCESS = `${appName}/${moduleName}/FETCH_ONE/SUCCESS`;
+const SAVE_NEW_FAILURE = `${appName}/${moduleName}/FETCH_ONE/FAILURE`;
+
 /**
  * Action creator
  */
@@ -59,6 +63,30 @@ export const fetchProduct = id => async (dispatch, _getState, { api }) => {
   }
 };
 
+export const saveNewProduct = newProduct => async (
+  dispatch,
+  _getState,
+  { api }
+) => {
+  dispatch({
+    type: SAVE_NEW_REQUEST
+  });
+
+  try {
+    const product = await api.products.saveNew(newProduct);
+
+    dispatch({
+      type: SAVE_NEW_SUCCESS,
+      payload: product
+    });
+  } catch (error) {
+    dispatch({
+      type: SAVE_NEW_FAILURE,
+      payload: error
+    });
+  }
+};
+
 const defaultState = {
   isLoading: false,
   list: [],
@@ -86,6 +114,18 @@ export default function reducer(state = defaultState, action) {
         one: null
       };
     case FETCH_ONE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        one: action.payload
+      };
+    case SAVE_NEW_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        list: []
+      };
+    case SAVE_NEW_SUCCESS:
       return {
         ...state,
         isLoading: false,
